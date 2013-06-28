@@ -1,9 +1,9 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DuoWeb", "DuoWeb\DuoWeb.csproj", "{902B2D72-B6F6-4CAB-92CF-9BF0BA79DEE9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DuoTest", "DuoTest\DuoTest.csproj", "{602AABC6-62E4-478B-AEE3-C036F402FE40}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DuoWebTests", "DuoWebTests\DuoWebTests.csproj", "{DB9AE9CF-3DD3-47F3-900A-931B2A941AAD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,10 +15,10 @@ Global
 		{902B2D72-B6F6-4CAB-92CF-9BF0BA79DEE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{902B2D72-B6F6-4CAB-92CF-9BF0BA79DEE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{902B2D72-B6F6-4CAB-92CF-9BF0BA79DEE9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{602AABC6-62E4-478B-AEE3-C036F402FE40}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{602AABC6-62E4-478B-AEE3-C036F402FE40}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{602AABC6-62E4-478B-AEE3-C036F402FE40}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{602AABC6-62E4-478B-AEE3-C036F402FE40}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DB9AE9CF-3DD3-47F3-900A-931B2A941AAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB9AE9CF-3DD3-47F3-900A-931B2A941AAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB9AE9CF-3DD3-47F3-900A-931B2A941AAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB9AE9CF-3DD3-47F3-900A-931B2A941AAD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
