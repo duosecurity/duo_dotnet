@@ -44,11 +44,14 @@ namespace Duo
 		/// <param name="skey">Duo secret key</param>
 		/// <param name="akey">Application secret key</param>
 		/// <param name="username">Primary-authenticated username</param>
+		/// <param name="current_time">(optional) The current UTC time</param>
 		/// <returns>signed request</returns>
-		public static string SignRequest(string ikey, string skey, string akey, string username)
+		public static string SignRequest(string ikey, string skey, string akey, string username, DateTime? current_time=null)
 		{
 			string duo_sig;
 			string app_sig;
+
+			DateTime current_time_value = current_time ?? DateTime.UtcNow;
 
 			if (username == "") {
 				return ERR_USER;
@@ -64,8 +67,8 @@ namespace Duo
 			}
 
 			try {
-				duo_sig = SignVals(skey, username, ikey, DUO_PREFIX, DUO_EXPIRE);
-				app_sig = SignVals(akey, username, ikey, APP_PREFIX, APP_EXPIRE);
+				duo_sig = SignVals(skey, username, ikey, DUO_PREFIX, DUO_EXPIRE, current_time_value);
+				app_sig = SignVals(akey, username, ikey, APP_PREFIX, APP_EXPIRE, current_time_value);
 			} catch {
 				return ERR_UNKNOWN;
 			}
@@ -81,19 +84,22 @@ namespace Duo
 		/// <param name="skey">Duo secret key</param>
 		/// <param name="akey">Application secret key</param>
 		/// <param name="sig_response">The signed response POST'ed to the server</param>
+		/// <param name="current_time">(optional) The current UTC time</param>
 		/// <returns>authenticated username, or null</returns>
-		public static string VerifyResponse(string ikey, string skey, string akey, string sig_response)
+		public static string VerifyResponse(string ikey, string skey, string akey, string sig_response, DateTime? current_time=null)
 		{
 			string auth_user = null;
 			string app_user = null;
+
+			DateTime current_time_value = current_time ?? DateTime.UtcNow;
 
 			try {
 				string[] sigs = sig_response.Split(':');
 				string auth_sig = sigs[0];
 				string app_sig = sigs[1];
 
-				auth_user = ParseVals(skey, auth_sig, AUTH_PREFIX);
-				app_user = ParseVals(akey, app_sig, APP_PREFIX);
+				auth_user = ParseVals(skey, auth_sig, AUTH_PREFIX, current_time_value);
+				app_user = ParseVals(akey, app_sig, APP_PREFIX, current_time_value);
 			} catch {
 				return null;
 			}
@@ -105,9 +111,10 @@ namespace Duo
 			return auth_user;
 		}
 
-		private static string SignVals(string key, string username, string ikey, string prefix, int expire)
+		private static string SignVals(string key, string username, string ikey, string prefix, Int64 expire, DateTime current_time)
 		{
-			int ts = (int) (DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalSeconds;
+
+			Int64 ts = (Int64) (current_time - new DateTime(1970, 1, 1)).TotalSeconds;
 			expire = ts + expire;
 
 			string val = username + "|" + ikey + "|" + expire.ToString();
@@ -118,9 +125,9 @@ namespace Duo
 			return cookie + "|" + sig;
 		}
 
-		private static string ParseVals(string key, string val, string prefix)
+		private static string ParseVals(string key, string val, string prefix, DateTime current_time)
 		{
-			int ts = (int) (DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalSeconds;
+			Int64 ts = (int) (current_time - new DateTime(1970, 1, 1)).TotalSeconds;
 
 			string[] parts = val.Split('|');
 			if (parts.Length != 3) {
