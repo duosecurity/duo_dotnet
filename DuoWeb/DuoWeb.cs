@@ -35,6 +35,9 @@ namespace Duo
 		public static string ERR_AKEY = "ERR|The application secret key passed to sign_request() must be at least 40 characters.";
 		public static string ERR_UNKNOWN = "ERR|An unknown error has occurred.";
 
+		// throw on invalid bytes
+		private static Encoding _encoding = new UTF8Encoding(false, true);
+
 		/// <summary>
 		/// Generate a signed request for Duo authentication.
 		/// The returned value should be passed into the Duo.init() call
@@ -167,10 +170,10 @@ namespace Duo
 
 		private static string HmacSign(string skey, string data)
 		{
-			byte[] key_bytes = ASCIIEncoding.ASCII.GetBytes(skey);
+			byte[] key_bytes = _encoding.GetBytes(skey);
 			HMACSHA1 hmac = new HMACSHA1(key_bytes);
 
-			byte[] data_bytes = ASCIIEncoding.ASCII.GetBytes(data);
+			byte[] data_bytes = _encoding.GetBytes(data);
 			hmac.ComputeHash(data_bytes);
 
 			string hex = BitConverter.ToString(hmac.Hash);
@@ -179,16 +182,14 @@ namespace Duo
 
 		private static string Encode64(string plaintext)
 		{
-			byte[] plaintext_bytes = ASCIIEncoding.ASCII.GetBytes(plaintext);
-			string encoded = System.Convert.ToBase64String(plaintext_bytes);
-			return encoded;
+			byte[] plaintext_bytes = _encoding.GetBytes(plaintext);
+			return System.Convert.ToBase64String(plaintext_bytes);
 		}
 
 		private static string Decode64(string encoded)
 		{
 			byte[] plaintext_bytes = System.Convert.FromBase64String(encoded);
-			string plaintext = ASCIIEncoding.ASCII.GetString(plaintext_bytes);
-			return plaintext;
+			return _encoding.GetString(plaintext_bytes);
 		}
 	}
 }
