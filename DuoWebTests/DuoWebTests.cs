@@ -9,6 +9,7 @@ namespace DuoWebTests
     {
         /* Dummy IKEY and SKEY values */
         const string IKEY = "DIXXXXXXXXXXXXXXXXXX";
+        const string WRONG_IKEY = "DIXXXXXXXXXXXXXXXXXY";
         const string SKEY = "deadbeefdeadbeefdeadbeefdeadbeefdeadbeef";
         const string AKEY = "useacustomerprovidedapplicationsecretkey";
 
@@ -21,6 +22,8 @@ namespace DuoWebTests
         const string FUTURE_RESPONSE = "AUTH|dGVzdHVzZXJ8RElYWFhYWFhYWFhYWFhYWFhYWFh8MTYxNTcyNzI0Mw==|d20ad0d1e62d84b00a3e74ec201a5917e77b6aef";
         const string OLD_REQUEST_APP_SIG = "APP|dGVzdHVzZXJ8RElYWFhYWFhYWFhYWFhYWFhYWFh8MTMwMDE2MTM5OQ==|c3648befd92041b26197af8a976300542f00cd5a";
         const string OLD_REQUEST = "TX|dGVzdHVzZXJ8RElYWFhYWFhYWFhYWFhYWFhYWFh8MTMwMDE1ODA5OQ==|815423f20909dbff2bc4962fdc3031d5f673bc1b:APP|dGVzdHVzZXJ8RElYWFhYWFhYWFhYWFhYWFhYWFh8MTMwMDE2MTM5OQ==|c3648befd92041b26197af8a976300542f00cd5a";
+        const string WRONG_PARAMS_RESPONSE = "AUTH|dGVzdHVzZXJ8RElYWFhYWFhYWFhYWFhYWFhYWFh8MTYxNTcyNzI0M3xpbnZhbGlkZXh0cmFkYXRh|6cdbec0fbfa0d3f335c76b0786a4a18eac6cdca7";
+        const string WRONG_PARAMS_APP = "APP|dGVzdHVzZXJ8RElYWFhYWFhYWFhYWFhYWFhYWFh8MTYxNTcyNzI0M3xpbnZhbGlkZXh0cmFkYXRh|7c2065ea122d028b03ef0295a4b4c5521823b9b5";
 
         private string valid_app_sig;
         private string invalid_app_sig;
@@ -60,6 +63,13 @@ namespace DuoWebTests
         public void TestSignEmptyUsername()
         {
             string request_sig = Duo.Web.SignRequest(IKEY, SKEY, AKEY, "");
+            Assert.AreEqual(request_sig, Duo.Web.ERR_USER);
+        }
+
+        [TestMethod]
+        public void TestSignBadUsername()
+        {
+            string request_sig = Duo.Web.SignRequest(IKEY, SKEY, AKEY, "in|valid");
             Assert.AreEqual(request_sig, Duo.Web.ERR_USER);
         }
 
@@ -110,6 +120,27 @@ namespace DuoWebTests
         {
             string future_user = Duo.Web.VerifyResponse(IKEY, SKEY, AKEY, FUTURE_RESPONSE + ":" + valid_app_sig);
             Assert.AreEqual(future_user, USER);
+        }
+
+        [TestMethod]
+        public void TestVerifyFutureUserWrongResponseFormat()
+        {
+            string future_user = Duo.Web.VerifyResponse(IKEY, SKEY, AKEY, WRONG_PARAMS_RESPONSE + ":" + valid_app_sig);
+            Assert.IsNull(future_user, USER);
+        }
+
+        [TestMethod]
+        public void TestVerifyFutureUserWrongAppSigFormat()
+        {
+            string future_user = Duo.Web.VerifyResponse(IKEY, SKEY, AKEY, FUTURE_RESPONSE + ":" + WRONG_PARAMS_APP);
+            Assert.IsNull(future_user);
+        }
+
+        [TestMethod]
+        public void TestVerifyFutureUserWrongIkey()
+        {
+            string future_user = Duo.Web.VerifyResponse(WRONG_IKEY, SKEY, AKEY, FUTURE_RESPONSE + ":" + valid_app_sig);
+            Assert.IsNull(future_user);
         }
 
         [TestMethod]

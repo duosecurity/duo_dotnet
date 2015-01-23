@@ -59,6 +59,9 @@ namespace Duo
 			if (username == "") {
 				return ERR_USER;
 			}
+			if (username.Contains("|")) {
+				return ERR_USER;
+			}
 			if (ikey.Length != IKEY_LEN) {
 				return ERR_IKEY;
 			}
@@ -101,8 +104,8 @@ namespace Duo
 				string auth_sig = sigs[0];
 				string app_sig = sigs[1];
 
-				auth_user = ParseVals(skey, auth_sig, AUTH_PREFIX, current_time_value);
-				app_user = ParseVals(akey, app_sig, APP_PREFIX, current_time_value);
+				auth_user = ParseVals(skey, auth_sig, AUTH_PREFIX, ikey, current_time_value);
+				app_user = ParseVals(akey, app_sig, APP_PREFIX, ikey, current_time_value);
 			} catch {
 				return null;
 			}
@@ -128,7 +131,7 @@ namespace Duo
 			return cookie + "|" + sig;
 		}
 
-		private static string ParseVals(string key, string val, string prefix, DateTime current_time)
+		private static string ParseVals(string key, string val, string prefix, string ikey, DateTime current_time)
 		{
 			Int64 ts = (int) (current_time - new DateTime(1970, 1, 1)).TotalSeconds;
 
@@ -157,8 +160,12 @@ namespace Duo
 			}
 
 			string username = cookie_parts[0];
-			string ikey = cookie_parts[1];
+			string u_ikey = cookie_parts[1];
 			string expire = cookie_parts[2];
+
+			if (u_ikey != ikey) {
+				return null;
+			}
 
 			int expire_ts = Convert.ToInt32(expire);
 			if (ts >= expire_ts) {
