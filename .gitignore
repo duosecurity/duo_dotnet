@@ -1,0 +1,12 @@
+*.suo
+*.sdf
+*.opensdf
+*.user
+Demo/bin/
+bin/
+obj/
+Win32/
+Debug/
+x64/
+ipch/
+.vs/
