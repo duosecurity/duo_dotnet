@@ -8,7 +8,7 @@ What's here:
 
 * `js` - Duo Javascript library, to be hosted by your webserver.
 * `DuoWeb` - Duo .NET SDK to be integrated with your web application
-* `DuoTest` - Unit tests for the SDK
+* `DuoWebTests` - Unit tests for the SDK
 
 # Usage
 
