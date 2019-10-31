@@ -167,7 +167,7 @@ namespace Duo
 				return null;
 			}
 
-			int expire_ts = Convert.ToInt32(expire);
+			long expire_ts = Convert.ToInt64(expire);
 			if (ts >= expire_ts) {
 				return null;
 			}
