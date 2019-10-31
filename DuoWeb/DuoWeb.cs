@@ -178,13 +178,14 @@ namespace Duo
 		private static string HmacSign(string skey, string data)
 		{
 			byte[] key_bytes = _encoding.GetBytes(skey);
-			HMACSHA1 hmac = new HMACSHA1(key_bytes);
+			using (HMACSHA1 hmac = new HMACSHA1(key_bytes)) 
+			{
+				byte[] data_bytes = _encoding.GetBytes(data);
+				hmac.ComputeHash(data_bytes);
 
-			byte[] data_bytes = _encoding.GetBytes(data);
-			hmac.ComputeHash(data_bytes);
-
-			string hex = BitConverter.ToString(hmac.Hash);
-			return hex.Replace("-", "").ToLower();
+				string hex = BitConverter.ToString(hmac.Hash);
+				return hex.Replace("-", "").ToLower();
+			}
 		}
 
 		private static string Encode64(string plaintext)
