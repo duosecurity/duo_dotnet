@@ -1,5 +1,10 @@
 # Overview
 
+[![Issues](https://img.shields.io/github/issues/duosecurity/duo_dotnet)](https://github.com/duosecurity/duo_dotnet/issues)
+[![Forks](https://img.shields.io/github/forks/duosecurity/duo_dotnet)](https://github.com/duosecurity/duo_dotnet/network/members)
+[![Stars](https://img.shields.io/github/stars/duosecurity/duo_dotnet)](https://github.com/duosecurity/duo_dotnet/stargazers)
+[![License](https://img.shields.io/badge/License-View%20License-orange)](https://github.com/duosecurity/duo_dotnet/blob/master/LICENSE)
+
 **duo_dotnet** - Duo two-factor authentication for .NET web applications
 
 This package allows a web developer to quickly add Duo's interactive, self-service, two-factor authentication to any web login form - without setting up secondary user accounts, directory synchronization, servers, or hardware.
