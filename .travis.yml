@@ -1,8 +1,8 @@
 matrix:
     include:
         - language: csharp
-            mono: none
-            dotnet: 2.1.502
-            script:
-                - dotnet restore
+          mono: none
+          dotnet: 2.1.502
+          script:
+            - dotnet restore
 
