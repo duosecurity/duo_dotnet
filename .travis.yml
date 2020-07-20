@@ -1,14 +1,5 @@
-matrix:
-    include:
-        - language: csharp
-          mono: none
-          dotnet: 2.1.502
-          script:
-            - dotnet restore
-
-        - language: node_js
-          node_js:
-              - "stable"
-          script:
-              - npm test
-              - npm run build
+language: csharp
+mono: none
+dotnet: 2.1.502
+script:
+  - dotnet restore
