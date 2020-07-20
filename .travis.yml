@@ -1,4 +1,4 @@
-lmatrix:
+matrix:
     include:
         - language: csharp
             mono: none
