@@ -6,3 +6,6 @@ matrix:
           script:
             - dotnet restore
 
+        - language: node_js
+          node_js:
+            - 7
