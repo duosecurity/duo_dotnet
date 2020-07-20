@@ -1,14 +1,11 @@
-language: python
-python:
-    - '2.7'
-    - '3.4'
-    - '3.5'
-    - '3.6'
-    - '3.7'
-    - '3.8'
-install:
-    - pip install -r requirements.txt
-    - pip install -r requirements-dev.txt
-script:
-    - flake8
-    - nose2
+lmatrix:
+    include:
+        - language: csharp
+            mono: none
+            dotnet: 2.1.502
+            script:
+                - dotnet restore
+
+        - language: node_js
+            node_js:
+                - 7
