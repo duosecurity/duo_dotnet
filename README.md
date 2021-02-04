@@ -17,7 +17,7 @@ What's here:
 
 # Usage
 
-Developer documentation: <http://www.duosecurity.com/docs/duoweb>
+Developer documentation: <http://www.duosecurity.com/docs/duoweb-v2>
 
 # Support
 
